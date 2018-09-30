@@ -1,0 +1,36 @@
+apply plugin: 'java'
+apply plugin: 'scala'
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // SCALA
+    compile group: 'org.scala-lang', name: 'scala-library', version: '2.12.1'
+
+    // SELENIUM
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.14.0'
+
+    // PROXY
+    compile group: 'net.lightbody.bmp', name: 'browsermob-core', version: '2.1.5'
+
+
+    // MAN IN THE MIDDLE, PARA SSL
+    //    compile group: 'org.littleshoot', name: 'littleproxy', version: '1.1.2'                 
+    compile group: 'net.lightbody.bmp', name: 'mitm', version: '2.1.4'              
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.3'
+}
+
+run {
+    main = 'HistoriasRNE'
+}
+
+
+
+
+

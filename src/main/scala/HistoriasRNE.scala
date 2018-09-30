@@ -8,9 +8,37 @@ import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.support.ui.ExpectedCondition
 import org.openqa.selenium.support.ui.WebDriverWait
 
-object Selenium2Example  extends App{
+object HistoriasRNE  extends App{
 
-  def test() = {
+  def testProxy() = {
+    // start the proxy
+    val proxy : BrowserMobProxy = new BrowserMobProxyServer()
+    proxy.start(0);
+
+    // get the Selenium proxy object
+    val seleniumProxy : Proxy = ClientUtil.createSeleniumProxy(proxy);
+
+    // configure it as a desired capability
+    val capabilities : DesiredCapabilities = new DesiredCapabilities();
+    capabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
+
+    // start the browser up
+    val driver : WebDriver  = new FirefoxDriver(capabilities);
+
+    // enable more detailed HAR capture, if desired (see CaptureType for the complete list)
+    proxy.enableHarCaptureTypes(CaptureType.REQUEST_CONTENT);
+
+    // create a new HAR with the label "yahoo.com"
+    proxy.newHar("yahoo.com");
+
+    // open yahoo.com
+    driver.get("http://yahoo.com");
+
+    // get the HAR data
+    val har : Har = proxy.getHar();
+  }
+
+  def testNoProxy() = {
 
 
     val options = new FirefoxOptions()
